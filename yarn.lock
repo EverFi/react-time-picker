@@ -4663,11 +4663,12 @@ randexp@0.4.6:
     discontinuous-range "1.0.0"
     ret "~0.1.10"
 
-react-clock@^2.3.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/react-clock/-/react-clock-2.4.0.tgz#39540f84e16f8b2c2137640f535c162041bd2a1e"
-  integrity sha512-BlzkzbhLEzLwdqtl+PAPvzMhRvg4xyxsiQnGpb+ZzL4YY5iFQgJa7C48EUGhbpnTtNwyMuaBG4KeYmUuUlTQUQ==
+react-clock@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-clock/-/react-clock-3.0.0.tgz#0d29f8e682ef516574061d1d24b1a286cb2da89b"
+  integrity sha512-D3K82D3YGcDtzxZCfiACLcDTL8cJXSgpdrzTY9ff3H5vflxlLzTSLF8apZRo6JZzOFrZQvw5mrS7TkQzj9nG0A==
   dependencies:
+    "@wojtekmaj/date-utils" "^1.0.0"
     merge-class-names "^1.1.1"
     prop-types "^15.6.0"
 
