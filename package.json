@@ -7,6 +7,7 @@
   "scripts": {
     "build": "yarn build-js && yarn copy-styles && yarn build-styles",
     "build-js": "babel src -d dist --ignore **/*.spec.js,**/*.spec.jsx",
+    "watch-js": "babel -s -w src -d dist --ignore **/*.spec.js,**/*.spec.jsx",
     "build-styles": "lessc ./dist/TimePicker.less ./dist/TimePicker.css",
     "clean": "rimraf dist",
     "copy-styles": "node ./copy-styles.js",
@@ -51,7 +52,7 @@
     "update-input-width": "^1.1.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
+    "@babel/cli": "^7.10.0",
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
