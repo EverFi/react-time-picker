@@ -15,6 +15,7 @@ export default function Hour12Input({
   hour,
   maxTime,
   minTime,
+  onChange,
   value,
   ...otherProps
 }) {
@@ -52,6 +53,13 @@ export default function Hour12Input({
       min={minHour}
       name="hour12"
       nameForClass="hour"
+      onChange={(event) => {
+        if (event.target.value === '0') {
+          event.preventDefault();
+        } else if (onChange) {
+          onChange(event);
+        }
+      }}
       value={value12}
       {...otherProps}
     />

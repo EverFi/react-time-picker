@@ -4,6 +4,7 @@ const isValidNumber = a => typeof a === 'number' && !isNaN(a);
 
 export const min = (...args) => Math.min(...args.filter(isValidNumber));
 export const max = (...args) => Math.max(...args.filter(isValidNumber));
+export const padStart = num => `0${num}`.slice(-2);
 
 const nines = ['9', '٩'];
 const ninesRegExp = new RegExp(`[${nines.join('')}]`);

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import mergeClassNames from 'merge-class-names';
 import updateInputWidth, { getFontShorthand } from 'update-input-width';
+import { padStart } from '../shared/utils';
 
 /* eslint-disable jsx-a11y/no-autofocus */
 
@@ -56,6 +57,10 @@ function makeOnKeyPress(maxLength) {
   };
 }
 
+function padIfNeeded(showLeadingZeros, value) {
+  return showLeadingZeros ? padStart(value) : `${parseInt(value, 10)}`;
+}
+
 export default function Input({
   ariaLabel,
   autoFocus,
@@ -75,11 +80,10 @@ export default function Input({
   step,
   value,
 }) {
-  const hasLeadingZero = showLeadingZeros && value !== null && value < 10;
-  const maxLength = max.toString().length;
+  const maxLength = max.toString().length + (showLeadingZeros ? 1 : 0);
+  const displayValue = value !== null ? padIfNeeded(showLeadingZeros, value) : '';
 
   return [
-    (hasLeadingZero && <span key="leadingZero" className={`${className}__leadingZero`}>0</span>),
     <input
       key="input"
       aria-label={ariaLabel}
@@ -88,13 +92,19 @@ export default function Input({
       className={mergeClassNames(
         `${className}__input`,
         `${className}__${nameForClass || name}`,
-        hasLeadingZero && `${className}__input--hasLeadingZero`,
       )}
       disabled={disabled}
-      max={max}
+      max={showLeadingZeros ? `${max}0` : max}
       min={min}
       name={name}
-      onChange={onChange}
+      onChange={(event) => {
+        const newValue = showLeadingZeros ? padStart(event.target.value) : event.target.value;
+        if (parseInt(newValue, 10) > max || parseInt(event.target.value, 10) > max) {
+          event.preventDefault();
+        } else if (onChange) {
+          onChange(event);
+        }
+      }}
       onFocus={onFocus}
       onKeyDown={onKeyDown}
       onKeyPress={makeOnKeyPress(maxLength)}
@@ -119,7 +129,7 @@ export default function Input({
       required={required}
       step={step}
       type="number"
-      value={value !== null ? value : ''}
+      value={displayValue}
     />,
   ];
 }

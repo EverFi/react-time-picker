@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { polyfill } from 'react-lifecycles-compat';
+import Fit from 'react-fit';
+import mergeClassNames from 'merge-class-names';
+
+import Clock from 'react-clock/dist/entry.nostyle';
 import {
   getHours,
   getMinutes,
@@ -20,9 +24,10 @@ import AmPm from './TimeInput/AmPm';
 import { getFormatter } from './shared/dateFormatter';
 import { convert12to24, convert24to12 } from './shared/dates';
 import { isTime } from './shared/propTypes';
-import { getAmPmLabels } from './shared/utils';
+import { getAmPmLabels, padStart } from './shared/utils';
 
 const allViews = ['hour', 'minute', 'second'];
+const baseClassName = 'react-time-picker';
 
 function hoursAreDifferent(date1, date2) {
   return (
@@ -93,24 +98,12 @@ export default class TimeInput extends PureComponent {
     const nextState = {};
 
     /**
-     * If isClockOpen flag has changed, we have to update it.
-     * It's saved in state purely for use in getDerivedStateFromProps.
-     */
-    if (nextProps.isClockOpen !== prevState.isClockOpen) {
-      nextState.isClockOpen = nextProps.isClockOpen;
-    }
-
-    /**
      * If the next value is different from the current one  (with an exception of situation in
      * which values provided are limited by minDate and maxDate so that the dates are the same),
      * get a new one.
      */
     const nextValue = nextProps.value;
-    if (
-      // Toggling calendar visibility resets values
-      nextState.isClockOpen // Flag was toggled
-      || hoursAreDifferent(nextValue, prevState.value)
-    ) {
+    if (hoursAreDifferent(nextValue, prevState.value)) {
       if (nextValue) {
         [, nextState.amPm] = convert24to12(getHours(nextValue));
         nextState.hour = getHours(nextValue);
@@ -390,10 +383,19 @@ export default class TimeInput extends PureComponent {
       const minute = parseInt(values.minute || 0, 10);
       const second = parseInt(values.second || 0, 10);
 
-      const padStart = num => `0${num}`.slice(-2);
       const proposedValue = `${padStart(hour)}:${padStart(minute)}:${padStart(second)}`;
       const processedValue = this.getProcessedValue(proposedValue);
       onChange(processedValue, false);
+    }
+  }
+
+  numberSelect = (value) => {
+    const { focusedElement } = this.props;
+    this.onChange({ target: { name: focusedElement, value } });
+    const input = this[`${focusedElement}Input`];
+    const nextInput = findInput(input, 'nextElementSibling');
+    if (nextInput) {
+      focus(nextInput);
     }
   }
 
@@ -561,6 +563,52 @@ export default class TimeInput extends PureComponent {
     );
   }
 
+  renderClock() {
+    const { disableClock, isClockOpen } = this.props;
+
+    if (isClockOpen === null || disableClock) {
+      return null;
+    }
+
+    const {
+      clockClassName,
+      clockProps = {},
+      focusedElement,
+      maxDetail,
+      value,
+    } = this.props;
+    const { hour, minute, second } = this.state;
+    clockProps.renderNumbers = clockProps.renderNumbers && ['second', 'minute'].includes(focusedElement) ? 'minutes' : clockProps.renderNumbers;
+
+    const className = `${baseClassName}__clock`;
+    let [valueFrom] = [].concat(value);
+    if (!valueFrom) {
+      if (hour) {
+        valueFrom = new Date();
+        valueFrom.setHours(hour,
+          minute === undefined ? null : minute,
+          second === undefined ? null : second);
+      }
+    }
+
+    const maxDetailIndex = allViews.indexOf(maxDetail);
+
+    return (
+      <Fit spacing={0}>
+        <div className={mergeClassNames(className, `${className}--${isClockOpen ? 'open' : 'closed'}`)}>
+          <Clock
+            className={clockClassName}
+            numberSelect={this.numberSelect}
+            renderMinuteHand={maxDetailIndex > 0}
+            renderSecondHand={maxDetailIndex > 1}
+            value={valueFrom}
+            {...clockProps}
+          />
+        </div>
+      </Fit>
+    );
+  }
+
   render() {
     const { className } = this.props;
 
@@ -573,6 +621,7 @@ export default class TimeInput extends PureComponent {
       >
         {this.renderNativeInput()}
         {this.renderCustomInputs()}
+        {this.renderClock()}
       </div>
     );
   }
@@ -587,7 +636,16 @@ TimeInput.propTypes = {
   amPmAriaLabel: PropTypes.string,
   autoFocus: PropTypes.bool,
   className: PropTypes.string.isRequired,
+  clockClassName: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
+  clockProps: PropTypes.shape({
+    renderNumbers: PropTypes.bool,
+  }),
+  disableClock: PropTypes.bool,
   disabled: PropTypes.bool,
+  focusedElement: PropTypes.string,
   format: PropTypes.string,
   hourAriaLabel: PropTypes.string,
   hourPlaceholder: PropTypes.string,
