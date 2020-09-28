@@ -335,6 +335,24 @@ describe('TimePicker', () => {
     expect(component.state('isOpen')).toBe(true);
   });
 
+  it('clears any entered values if the clock is opened', () => {
+    const component = mount(
+      <TimePicker
+        isOpen={false}
+      />
+    );
+
+    const customInputs = component.find('input[type="number"]');
+    const hourInput = customInputs.at(0);
+    hourInput.getDOMNode().value = '10';
+    hourInput.simulate('change');
+
+    expect(hourInput.getDOMNode().value).toBe('10');
+    component.setProps({ isOpen: true });
+    component.update();
+    expect(hourInput.getDOMNode().value).toBeFalsy();
+  });
+
   it('closes Clock when calling internal onChange', () => {
     const component = mount(
       <TimePicker isOpen />
