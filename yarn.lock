@@ -4443,7 +4443,7 @@ rc@^1.2.7:
 
 "react-clock@git+ssh://git@github.com/EverFi/react-clock#v2-develop":
   version "2.4.0"
-  resolved "git+ssh://git@github.com/EverFi/react-clock#3b46b26ff2c20ce14f2721febb2ba845dab885f9"
+  resolved "git+ssh://git@github.com/EverFi/react-clock#0fcc157ff7e9d4fdc0d0fa79a32f846b8d29f918"
   dependencies:
     merge-class-names "^1.1.1"
     prop-types "^15.6.0"
