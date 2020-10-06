@@ -46,7 +46,7 @@
     "make-event-props": "^1.1.0",
     "merge-class-names": "^1.1.1",
     "prop-types": "^15.6.0",
-    "react-clock": "^2.3.0",
+    "react-clock": "git+ssh://git@github.com/EverFi/react-clock#v2-develop",
     "react-fit": "^1.0.3",
     "react-lifecycles-compat": "^3.0.4",
     "update-input-width": "^1.1.1"
