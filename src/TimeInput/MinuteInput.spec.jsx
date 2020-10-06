@@ -61,8 +61,7 @@ describe('MinuteInput', () => {
 
     const input = component.find('input');
 
-    expect(component.text()).toContain('0');
-    expect(input.prop('className')).toContain(`${defaultProps.className}__input--hasLeadingZero`);
+    expect(input.prop('value')).toBe('09');
   });
 
   it('does not render "0" if minute is >=10', () => {
@@ -117,7 +116,7 @@ describe('MinuteInput', () => {
 
     const input = component.find('input');
 
-    expect(input.prop('value')).toBe(value);
+    expect(input.prop('value')).toBe(String(value));
   });
 
   it('does not disable input by default', () => {
@@ -225,7 +224,7 @@ describe('MinuteInput', () => {
 
     const input = component.find('input');
 
-    expect(input.prop('max')).toBe(59);
+    expect(input.prop('max')).toBe(`${59}0`);
   });
 
   it('has max = 59 given maxTime in a future hour', () => {
@@ -239,7 +238,7 @@ describe('MinuteInput', () => {
 
     const input = component.find('input');
 
-    expect(input.prop('max')).toBe(59);
+    expect(input.prop('max')).toBe(`${59}0`);
   });
 
   it('has max = (minute in maxHour) given maxTime in a current hour', () => {
@@ -253,6 +252,6 @@ describe('MinuteInput', () => {
 
     const input = component.find('input');
 
-    expect(input.prop('max')).toBe(40);
+    expect(input.prop('max')).toBe(`${40}0`);
   });
 });

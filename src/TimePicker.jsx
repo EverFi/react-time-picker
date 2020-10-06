@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import { polyfill } from 'react-lifecycles-compat';
 import makeEventProps from 'make-event-props';
 import mergeClassNames from 'merge-class-names';
-import Fit from 'react-fit';
-
-import Clock from 'react-clock/dist/entry.nostyle';
 
 import TimeInput from './TimeInput';
 
@@ -81,7 +78,15 @@ export default class TimePicker extends PureComponent {
       return;
     }
 
-    this.openClock();
+    if (event.target.name) {
+      this.setState({ focusedElement: event.target.name });
+
+      if (event.target.name === 'amPm') {
+        this.closeClock();
+      } else {
+        this.openClock();
+      }
+    }
   }
 
   openClock = () => {
@@ -127,9 +132,7 @@ export default class TimePicker extends PureComponent {
       format,
       hourAriaLabel,
       hourPlaceholder,
-      isOpen,
       locale,
-      maxDetail,
       maxTime,
       minTime,
       minuteAriaLabel,
@@ -139,7 +142,16 @@ export default class TimePicker extends PureComponent {
       required,
       secondAriaLabel,
       secondPlaceholder,
+    } = this.props;
+    const { focusedElement, isOpen } = this.state;
+
+    const {
+      clockClassName,
+      className: timePickerClassName, // Unused, here to exclude it from clockProps
+      maxDetail,
+      onChange,
       value,
+      ...clockProps
     } = this.props;
 
     const [valueFrom] = [].concat(value);
@@ -165,7 +177,11 @@ export default class TimePicker extends PureComponent {
           {...placeholderProps}
           autoFocus={autoFocus}
           className={`${baseClassName}__inputGroup`}
+          clockClassName={clockClassName}
+          clockProps={clockProps}
+          disableClock={disableClock}
           disabled={disabled}
+          focusedElement={focusedElement}
           format={format}
           isClockOpen={isOpen}
           locale={locale}
@@ -195,7 +211,6 @@ export default class TimePicker extends PureComponent {
             aria-label={clockAriaLabel}
             className={`${baseClassName}__clock-button ${baseClassName}__button`}
             disabled={disabled}
-            onBlur={this.resetValue}
             onClick={this.toggleClock}
             onFocus={this.stopPropagation}
             type="button"
@@ -204,43 +219,6 @@ export default class TimePicker extends PureComponent {
           </button>
         )}
       </div>
-    );
-  }
-
-  renderClock() {
-    const { disableClock } = this.props;
-    const { isOpen } = this.state;
-
-    if (isOpen === null || disableClock) {
-      return null;
-    }
-
-    const {
-      clockClassName,
-      className: timePickerClassName, // Unused, here to exclude it from clockProps
-      maxDetail,
-      onChange,
-      value,
-      ...clockProps
-    } = this.props;
-
-    const className = `${baseClassName}__clock`;
-    const [valueFrom] = [].concat(value);
-
-    const maxDetailIndex = allViews.indexOf(maxDetail);
-
-    return (
-      <Fit>
-        <div className={mergeClassNames(className, `${className}--${isOpen ? 'open' : 'closed'}`)}>
-          <Clock
-            className={clockClassName}
-            renderMinuteHand={maxDetailIndex > 0}
-            renderSecondHand={maxDetailIndex > 1}
-            value={valueFrom}
-            {...clockProps}
-          />
-        </div>
-      </Fit>
     );
   }
 
@@ -267,7 +245,6 @@ export default class TimePicker extends PureComponent {
         }}
       >
         {this.renderInputs()}
-        {this.renderClock()}
       </div>
     );
   }

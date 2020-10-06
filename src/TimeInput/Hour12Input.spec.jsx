@@ -90,7 +90,7 @@ describe('Hour12Input', () => {
 
     const input = component.find('input');
 
-    expect(input.prop('value')).toBe(value);
+    expect(input.prop('value')).toBe(String(value));
   });
 
   it('displays given value properly (pm)', () => {
@@ -105,7 +105,7 @@ describe('Hour12Input', () => {
 
     const input = component.find('input');
 
-    expect(input.prop('value')).toBe(value - 12);
+    expect(input.prop('value')).toBe(String(value - 12));
   });
 
   it('does not disable input by default', () => {
