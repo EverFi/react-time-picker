@@ -30,9 +30,9 @@ references:
         yarn
         yarn build
 
-  check_version_tag: &check_version_tag
+  yank_version_if_not_tagged: &yank_version_if_not_tagged
     run:
-      name: Check if Version is Tagged
+      name: Yank Version Unless It Is Tagged
       command: |
         DEPLOY_VERSION=$(npm -s run env echo '$npm_package_version')
         if [ $(git tag -l "$DEPLOY_VERSION") ]; then
@@ -41,13 +41,6 @@ references:
         else
           fury yank react-time-picker -v $DEPLOY_VERSION --api-token=$GEMFURY_API_TOKEN || echo "$DEPLOY_VERSION not on gemfury"
         fi
-
-  yank_version: &yank_version
-    run:
-      name: Yank Version
-      command: |
-        DEPLOY_VERSION=$(npm -s run env echo '$npm_package_version')
-        fury yank react-time-picker -v $DEPLOY_VERSION --api-token=$GEMFURY_API_TOKEN || echo "$DEPLOY_VERSION not on gemfury"
 
   deploy_version: &deploy_version
     run:
@@ -62,7 +55,6 @@ references:
           exit 1
         fi
 
-
 version: 2.1
 
 jobs:
@@ -74,8 +66,7 @@ jobs:
       - checkout
       - *restore_cache
       - *install_build
-      - *check_version_tag
-      - *yank_version
+      - *yank_version_if_not_tagged
       - *deploy_version
       - *save_cache
   deploy_gemfury_tagged:
