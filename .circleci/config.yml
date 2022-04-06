@@ -1,0 +1,107 @@
+references:
+  docker_auth: &docker_auth
+    auth:
+      username: $DOCKERHUB_USERNAME
+      password: $DOCKERHUB_PASSWORD
+
+  common_contexts: &common_contexts
+    context:
+      - docker-hub-creds
+      - gemfury-api-access
+
+  restore_cache: &restore_cache
+    restore_cache:
+      name: Restore Yarn Package Cache
+      keys:
+        - yarn-packages-{{ checksum "yarn.lock" }}
+
+  save_cache: &save_cache
+    save_cache:
+      name: Save Yarn Package Cache
+      key: yarn-packages-{{ checksum "yarn.lock" }}
+      paths:
+        - ~/.cache/yarn
+
+  install_build: &install_build
+    run:
+      name: Install & Build
+      command: |
+        gem install gemfury
+        yarn
+        yarn build
+
+  check_version_tag: &check_version_tag
+    run:
+      name: Check if Version is Tagged
+      command: |
+        DEPLOY_VERSION=$(npm -s run env echo '$npm_package_version')
+        if [ $(git tag -l "$DEPLOY_VERSION") ]; then
+          echo "Package version $DEPLOY_VERSION has already been tagged, will not redeploy"
+          exit 1
+        else
+          fury yank react-time-picker -v $DEPLOY_VERSION --api-token=$GEMFURY_API_TOKEN || echo "$DEPLOY_VERSION not on gemfury"
+        fi
+
+  yank_version: &yank_version
+    run:
+      name: Yank Version
+      command: |
+        DEPLOY_VERSION=$(npm -s run env echo '$npm_package_version')
+        fury yank react-time-picker -v $DEPLOY_VERSION --api-token=$GEMFURY_API_TOKEN || echo "$DEPLOY_VERSION not on gemfury"
+
+  deploy_version: &deploy_version
+    run:
+      name: Deploy Version
+      command: |
+        DEPLOY_VERSION=$(npm -s run env echo '$npm_package_version')
+        if [ "$CIRCLE_TAG" = "$DEPLOY_VERSION" ] || [ "$CIRCLE_TAG" = "" ]; then
+          DEPLOY_FILE=$(npm pack | tail -n 1)
+          fury push $DEPLOY_FILE --api-token=$GEMFURY_API_TOKEN
+        else
+          echo "Package version $DEPLOY_VERSION does not match git tag $CIRCLE_TAG"
+          exit 1
+        fi
+
+
+version: 2.1
+
+jobs:
+  deploy_gemfury_develop:
+    docker:
+      - image: cimg/ruby:3.0.1-browsers
+        <<: *docker_auth
+    steps:
+      - checkout
+      - *restore_cache
+      - *install_build
+      - *check_version_tag
+      - *yank_version
+      - *deploy_version
+      - *save_cache
+  deploy_gemfury_tagged:
+    docker:
+      - image: cimg/ruby:3.0.1-browsers
+        <<: *docker_auth
+    steps:
+      - checkout
+      - *restore_cache
+      - *install_build
+      - *deploy_version
+      - *save_cache
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - deploy_gemfury_develop:
+          <<: *common_contexts
+          filters:
+            branches:
+              only: /v3-develop|test-build/
+      - deploy_gemfury_tagged:
+          <<: *common_contexts
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
