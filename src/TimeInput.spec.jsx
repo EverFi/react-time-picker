@@ -105,9 +105,9 @@ describe('TimeInput', () => {
     const customInputs = component.find('input[type="number"]');
 
     expect(nativeInput.prop('value')).toBe(date);
-    expect(customInputs.at(0).prop('value')).toBe(10);
-    expect(customInputs.at(1).prop('value')).toBe(17);
-    expect(customInputs.at(2).prop('value')).toBe(0);
+    expect(customInputs.at(0).prop('value')).toBe('10');
+    expect(customInputs.at(1).prop('value')).toBe('17');
+    expect(customInputs.at(2).prop('value')).toBe('00');
   });
 
   itIfFullICU('shows a given time in all inputs correctly (24-hour format)', () => {
@@ -169,6 +169,22 @@ describe('TimeInput', () => {
     expect(customInputs.at(0).prop('value')).toBeFalsy();
     expect(customInputs.at(1).prop('value')).toBeFalsy();
     expect(customInputs.at(2).prop('value')).toBeFalsy();
+  });
+
+  it('clears any entered values if the clock is opened', () => {
+    const component = mount(
+      <TimeInput
+        {...defaultProps}
+        isClockOpen={false}
+        maxDetail="second"
+      />
+    );
+
+    const customInputs = component.find('input[type="number"]');
+    customInputs.at(0).getDOMNode().value = '10';
+    expect(customInputs.at(0).getDOMNode().value).toBe('10');
+    component.setProps({ isClockOpen: true });
+    expect(customInputs.at(0).getDOMNode().value).toBeFalsy();
   });
 
   it('renders custom inputs in a proper order (12-hour format)', () => {
@@ -626,7 +642,7 @@ describe('TimeInput', () => {
 
   it('triggers onChange correctly when changed custom input', () => {
     const onChange = jest.fn();
-    const date = '22:17:00';
+    const date = '10:17:00';
 
     const component = mount(
       <TimeInput
@@ -639,11 +655,11 @@ describe('TimeInput', () => {
 
     const customInputs = component.find('input[type="number"]');
 
-    customInputs.at(0).getDOMNode().value = '20';
+    customInputs.at(0).getDOMNode().value = '11';
     customInputs.at(0).simulate('change');
 
     expect(onChange).toHaveBeenCalled();
-    expect(onChange).toHaveBeenCalledWith('20:17:00', false);
+    expect(onChange).toHaveBeenCalledWith('11:17:00', false);
   });
 
   it('triggers onChange correctly when cleared custom inputs', () => {

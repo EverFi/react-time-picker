@@ -1,12 +1,13 @@
 {
   "name": "react-time-picker",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "description": "A time picker for your React app.",
   "main": "dist/entry.js",
   "source": "src/entry.js",
   "scripts": {
     "build": "yarn build-js && yarn copy-styles && yarn build-styles",
     "build-js": "babel src -d dist --ignore **/*.spec.js,**/*.spec.jsx",
+    "watch-js": "babel -s -w src -d dist --ignore **/*.spec.js,**/*.spec.jsx",
     "build-styles": "lessc ./dist/TimePicker.less ./dist/TimePicker.css",
     "clean": "rimraf dist",
     "copy-styles": "node ./copy-styles.js",
@@ -45,13 +46,13 @@
     "make-event-props": "^1.1.0",
     "merge-class-names": "^1.1.1",
     "prop-types": "^15.6.0",
-    "react-clock": "^2.3.0",
+    "react-clock": "2.5.0",
     "react-fit": "^1.0.3",
     "react-lifecycles-compat": "^3.0.4",
     "update-input-width": "^1.1.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
+    "@babel/cli": "^7.10.0",
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",

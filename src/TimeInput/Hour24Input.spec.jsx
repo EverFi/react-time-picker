@@ -89,7 +89,7 @@ describe('Hour24Input', () => {
 
     const input = component.find('input');
 
-    expect(input.prop('value')).toBe(value);
+    expect(input.prop('value')).toBe(String(value));
   });
 
   it('does not disable input by default', () => {
