@@ -9,6 +9,10 @@ references:
       - docker-hub-creds
       - gemfury-api-access
 
+  install_node_and_yarn: &install_node_and_yarn
+    node/install:
+      install-yarn: true
+
   restore_cache: &restore_cache
     restore_cache:
       name: Restore Yarn Package Cache
@@ -57,13 +61,17 @@ references:
 
 version: 2.1
 
+orbs:
+  node: circleci/node@5.0.2
+
 jobs:
   deploy_gemfury_develop:
     docker:
-      - image: cimg/ruby:3.0.1-browsers
+      - image: cimg/ruby:3.0.1
         <<: *docker_auth
     steps:
       - checkout
+      - *install_node_and_yarn
       - *restore_cache
       - *install_build
       - *yank_version_if_not_tagged
@@ -71,10 +79,11 @@ jobs:
       - *save_cache
   deploy_gemfury_tagged:
     docker:
-      - image: cimg/ruby:3.0.1-browsers
+      - image: cimg/ruby:3.0.1
         <<: *docker_auth
     steps:
       - checkout
+      - *install_node_and_yarn
       - *restore_cache
       - *install_build
       - *deploy_version
