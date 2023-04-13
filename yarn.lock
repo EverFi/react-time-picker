@@ -4441,10 +4441,9 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-clock@2.5.0:
-  version "2.5.0"
-  resolved "https://npm-proxy.fury.io/everfi/~/up/ver_11Kgcc/react-clock-2.5.0.tgz#3079b58a322cde914c7b59febb590176ddf7ec49"
-  integrity sha1-MHm1ijIs3pFMe1n+u1kBdt337Ek=
+"react-clock@git+ssh://git@github.com/EverFi/react-clock#v2-develop":
+  version "2.6.0-develop"
+  resolved "git+ssh://git@github.com/EverFi/react-clock#af845b0b84571cf764531f9b41cd546bd2c09ab3"
   dependencies:
     merge-class-names "^1.1.1"
     prop-types "^15.6.0"
