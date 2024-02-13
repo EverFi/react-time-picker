@@ -1054,6 +1054,59 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@everfi/react-clock@npm:2.6.0-develop":
+  version: 2.6.0-develop
+  resolution: "@everfi/react-clock@npm:2.6.0-develop::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40everfi%2Freact-clock%2F2.6.0-develop%2Fd6be63ad267d8477d2d7e4a214d9b5912ac4dfdc"
+  dependencies:
+    merge-class-names: ^1.1.1
+    prop-types: ^15.6.0
+  peerDependencies:
+    react: ">=15.5"
+    react-dom: ">=15.5"
+  checksum: d5a8faaa232e202a8538bbdf6302366bb8d5d9c9c4796a864abc2926b2625edfa4a99925d337925a7c4de69ab3d3ba415a840fef621b1ecee2d4af0b58c83e51
+  languageName: node
+  linkType: hard
+
+"@everfi/react-time-picker@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@everfi/react-time-picker@workspace:."
+  dependencies:
+    "@babel/cli": ^7.10.0
+    "@babel/core": ^7.5.5
+    "@babel/plugin-proposal-class-properties": ^7.5.5
+    "@babel/preset-env": ^7.5.5
+    "@babel/preset-react": ^7.0.0
+    "@everfi/react-clock": 2.6.0-develop
+    "@wojtekmaj/date-utils": ^1.0.0
+    babel-eslint: ^10.0.0
+    babel-jest: ^24.0.0
+    enzyme: ^3.10.0
+    enzyme-adapter-react-16: ^1.14.0
+    eslint: ^6.1.0
+    eslint-config-airbnb: ^18.0.0
+    eslint-plugin-import: ^2.18.2
+    eslint-plugin-jsx-a11y: ^6.2.3
+    eslint-plugin-react: ^7.14.3
+    eslint-plugin-react-hooks: ^1.7.0
+    get-user-locale: ^1.2.0
+    jest: ^24.8.0
+    less: ^3.8.1
+    make-event-props: ^1.1.0
+    merge-class-names: ^1.1.1
+    prop-types: ^15.6.0
+    react: ^16.7.0
+    react-dom: ^16.7.0
+    react-fit: ^1.0.3
+    react-lifecycles-compat: ^3.0.4
+    react-test-renderer: ^16.7.0
+    rimraf: ^3.0.0
+    update-input-width: ^1.1.1
+  peerDependencies:
+    react: ">=15.5"
+    react-dom: ">=15.5"
+  languageName: unknown
+  linkType: soft
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -6540,19 +6593,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-clock@git+ssh://git@github.com/EverFi/react-clock#v2-develop":
-  version: 2.6.0-develop
-  resolution: "react-clock@git+ssh://git@github.com/EverFi/react-clock#commit=0a7bc5d7a10408248c3cf159fe686975bf990916"
-  dependencies:
-    merge-class-names: ^1.1.1
-    prop-types: ^15.6.0
-  peerDependencies:
-    react: ">=15.5"
-    react-dom: ">=15.5"
-  checksum: 4534eb7b8745179c446d0222016e5a2f4333d8374566c87038907a120c87353ebf80753f15aa6072a184bb0f3069729fb4aa5c4042bd4487a8dc02cc63b9b7b3
-  languageName: node
-  linkType: hard
-
 "react-dom@npm:^16.7.0":
   version: 16.8.6
   resolution: "react-dom@npm:16.8.6"
@@ -6607,46 +6647,6 @@ __metadata:
   checksum: b35014a515ee8c90432a9bf677e6d3a59af9ac7fb2ae8b59e54278596bb34e22a13788b7bc4348aa19acdfac48cf40d514d2dfa53fe972d92c4c4194e4f2b7c9
   languageName: node
   linkType: hard
-
-"react-time-picker@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "react-time-picker@workspace:."
-  dependencies:
-    "@babel/cli": ^7.10.0
-    "@babel/core": ^7.5.5
-    "@babel/plugin-proposal-class-properties": ^7.5.5
-    "@babel/preset-env": ^7.5.5
-    "@babel/preset-react": ^7.0.0
-    "@wojtekmaj/date-utils": ^1.0.0
-    babel-eslint: ^10.0.0
-    babel-jest: ^24.0.0
-    enzyme: ^3.10.0
-    enzyme-adapter-react-16: ^1.14.0
-    eslint: ^6.1.0
-    eslint-config-airbnb: ^18.0.0
-    eslint-plugin-import: ^2.18.2
-    eslint-plugin-jsx-a11y: ^6.2.3
-    eslint-plugin-react: ^7.14.3
-    eslint-plugin-react-hooks: ^1.7.0
-    get-user-locale: ^1.2.0
-    jest: ^24.8.0
-    less: ^3.8.1
-    make-event-props: ^1.1.0
-    merge-class-names: ^1.1.1
-    prop-types: ^15.6.0
-    react: ^16.7.0
-    react-clock: "git+ssh://git@github.com/EverFi/react-clock#v2-develop"
-    react-dom: ^16.7.0
-    react-fit: ^1.0.3
-    react-lifecycles-compat: ^3.0.4
-    react-test-renderer: ^16.7.0
-    rimraf: ^3.0.0
-    update-input-width: ^1.1.1
-  peerDependencies:
-    react: ">=15.5"
-    react-dom: ">=15.5"
-  languageName: unknown
-  linkType: soft
 
 "react@npm:^16.7.0":
   version: 16.8.6

@@ -15,7 +15,7 @@ var _reactFit = _interopRequireDefault(require("react-fit"));
 
 var _mergeClassNames = _interopRequireDefault(require("merge-class-names"));
 
-var _entry = _interopRequireDefault(require("react-clock/dist/entry.nostyle"));
+var _entry = _interopRequireDefault(require("@everfi/react-clock/dist/entry.nostyle"));
 
 var _dateUtils = require("@wojtekmaj/date-utils");
 

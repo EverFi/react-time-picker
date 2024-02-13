@@ -1,4 +1,4 @@
-import 'react-clock/dist/Clock.css';
+import '@everfi/react-clock/dist/Clock.css';
 
 import TimePicker from './TimePicker';
 

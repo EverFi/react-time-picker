@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-require("react-clock/dist/Clock.css");
+require("@everfi/react-clock/dist/Clock.css");
 
 var _TimePicker = _interopRequireDefault(require("./TimePicker"));
 

@@ -4,7 +4,7 @@ import { polyfill } from 'react-lifecycles-compat';
 import Fit from 'react-fit';
 import mergeClassNames from 'merge-class-names';
 
-import Clock from 'react-clock/dist/entry.nostyle';
+import Clock from '@everfi/react-clock/dist/entry.nostyle';
 import {
   getHours,
   getMinutes,

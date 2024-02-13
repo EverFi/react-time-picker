@@ -1,12 +1,12 @@
 {
-  "name": "react-time-picker",
-  "version": "3.11.0-develop",
+  "name": "@everfi/react-time-picker",
+  "version": "3.11.1-develop",
   "description": "A time picker for your React app.",
   "main": "dist/entry.js",
   "source": "src/entry.js",
   "scripts": {
     "build": "yarn build-js && yarn copy-styles && yarn build-styles",
-    "build-js": "babel src -d dist --ignore **/*.spec.js,**/*.spec.jsx",
+    "build-js": "babel src -d dist --ignore '**/*.spec.js' --ignore '**/*.spec.jsx'",
     "watch-js": "babel -s -w src -d dist --ignore **/*.spec.js,**/*.spec.jsx",
     "build-styles": "lessc ./dist/TimePicker.less ./dist/TimePicker.css",
     "clean": "rimraf dist",
@@ -41,12 +41,12 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@everfi/react-clock": "2.6.0-develop",
     "@wojtekmaj/date-utils": "^1.0.0",
     "get-user-locale": "^1.2.0",
     "make-event-props": "^1.1.0",
     "merge-class-names": "^1.1.1",
     "prop-types": "^15.6.0",
-    "react-clock": "git+ssh://git@github.com/EverFi/react-clock#v2-develop",
     "react-fit": "^1.0.3",
     "react-lifecycles-compat": "^3.0.4",
     "update-input-width": "^1.1.1"
@@ -86,7 +86,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/wojtekmaj/react-time-picker.git"
+    "url": "https://github.com/EverFi/react-time-picker"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "packageManager": "yarn@3.6.1"
 }
