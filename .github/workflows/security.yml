@@ -13,8 +13,8 @@ name: Security Scans
 on:
   push:
     branches:
-      - master
-      - '5.x.x'
+      - v3-master
+      - v3-develop
       - test-whitesource
       - test-cx-scan
       - test-gha-security
