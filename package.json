@@ -80,7 +80,9 @@
   },
   "resolutions": {
     "ansi-regex": "^5.0.1",
+    "braces": "^3.0.3",
     "glob-parent": "^5.1.2",
+    "micromatch": "^4.0.6",
     "semver": "^7.5.2"
   },
   "files": [
